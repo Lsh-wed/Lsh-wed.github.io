@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>💖 与慧慧的甜蜜记忆 💖</title>
+    <style>
+        :root {
+            --primary: #ff69b4;
+            --secondary: #ffb3c1;
+            --shadow: 0 10px 30px rgba(255,105,180,0.15);
+        }
+
+        body {
+            background: linear-gradient(135deg, #fff0f6, #ffe4e8);
+            font-family: 'Microsoft YaHei', sans-serif;
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 40px;
+            background: rgba(255,255,255,0.97);
+            border-radius: 30px;
+            box-shadow: var(--shadow);
+        }
+
+        /* 动态标题 */
+        .magic-title {
+            text-align: center;
+            font-size: 3rem;
+            background: linear-gradient(45deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            animation: titleGlow 2s infinite alternate;
+        }
+
+        /* 纪念日卡片组 */
+        .memory-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin: 50px 0;
+        }
+
+        .memory-card {
+            background: white;
+            padding: 30px;
+            border-radius: 20px;
+            text-align: center;
+            transition: all 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .memory-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, 
+                rgba(255,105,180,0.1) 0%, 
+                rgba(255,179,193,0.2) 100%
+            );
+            transform: rotate(45deg);
+            z-index: 0;
+        }
+
+        /* 牵手照片墙 */
+        .love-moment {
+            position: relative;
+            margin: 4rem 0;
+            border-radius: 25px;
+            overflow: hidden;
+            transform-style: preserve-3d;
+        }
+
+        .love-image {
+            width: 100%;
+            height: 600px;
+            object-fit: cover;
+            transition: transform 0.8s;
+        }
+
+        .image-caption {
+            position: absolute;
+            bottom: 2rem;
+            left: 2rem;
+            color: white;
+            font-size: 2.5rem;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+            opacity: 0;
+            transition: opacity 0.5s;
+        }
+
+        .love-moment:hover .love-image {
+            transform: scale(1.05) rotate(2deg);
+        }
+
+        .love-moment:hover .image-caption {
+            opacity: 1;
+        }
+
+        /* 音乐时光机 */
+        .music-portal {
+            margin: 4rem auto;
+            width: fit-content;
+            border-radius: 20px;
+            background: white;
+            padding: 20px;
+            box-shadow: var(--shadow);
+        }
+
+        @keyframes titleGlow {
+            0% { text-shadow: 0 0 10px var(--primary); }
+            100% { text-shadow: 0 0 20px var(--secondary); }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- 动态标题 -->
+        <h1 class="magic-title">✨ 与慧慧的甜蜜记忆 ✨</h1>
+
+        <!-- 记忆卡片组 -->
+        <div class="memory-grid">
+            <div class="memory-card">
+                <div class="card-content">
+                    <h3>🌸 初次约会 🌸</h3>
+                    <p class="date">2025.04.30</p>
+                    <p class="desc">在校门口记得我们第一次并肩的身影</p>
+                </div>
+            </div>
+
+            <div class="memory-card">
+                <div class="card-content">
+                    <h3>🌹 爱的告白 🌹</h3>
+                    <p class="date">2025.05.20</p>
+                    <p class="desc">在日暮交换了彼此最真挚的心意</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- 牵手时刻 -->
+        <div class="love-moment">
+            <img 
+                src="https://pic1.imgdb.cn/item/6836f43858cb8da5c816105d.jpg" 
+                alt="执子之手"
+                class="love-image"
+            >
+            <div class="image-caption">
+                "从指尖到心底<br>都是你的温度"
+            </div>
+        </div>
+
+        <!-- 音乐时光机 -->
+        <div class="music-portal">
+            <iframe
+                frameborder="no"
+                border="0"
+                marginwidth="0"
+                marginheight="0"
+                width="380"
+                height="110"
+                src="https://music.163.com/outchain/player?type=2&id=2676045511&auto=1&height=66">
+            </iframe>
+        </div>
+    </div>
+
+    <script>
+        // 卡片悬停特效
+        document.querySelectorAll('.memory-card').forEach(card => {
+            card.addEventListener('mousemove', (e) => {
+                const rect = card.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                card.style.transform = `
+                    perspective(1000px)
+                    rotateX(${(y - rect.height/2)/10}deg)
+                    rotateY(${-(x - rect.width/2)/10}deg)
+                `;
+            });
+
+            card.addEventListener('mouseleave', () => {
+                card.style.transform = 'none';
+            });
+        });
+
+        // 自动播放保障
+        let isMusicReady = false;
+        document.addEventListener('click', () => {
+            if(!isMusicReady) {
+                const iframe = document.querySelector('iframe');
+                iframe.contentWindow.postMessage('play', '*');
+                isMusicReady = true;
+            }
+        });
+    </script>
+</body>
+</html>
